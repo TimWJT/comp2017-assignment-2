@@ -1,0 +1,339 @@
+=== Test 1: Basic Insert ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'World' at pos 0, result: 0
+Step: After Insert 'World'
+Document Version: 0
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'Hello ' at pos 0, result: 0
+Step: After Insert 'Hello '
+Document Version: 0
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Flattened (before commit): 
+Step: After Version Increment
+Document Version: 1
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello World
+---
+Flattened (after commit): Hello World
+Expected: 'Hello World'
+---
+=== Test 2: Basic Delete ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'Hello World' at pos 0, result: 0
+Step: After Insert 'Hello World'
+Document Version: 0
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment
+Document Version: 1
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello World
+---
+Delete from pos 5, length 6, result: 0
+Step: After Delete
+Document Version: 1
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello World
+---
+Flattened (before next increment): Hello World
+Expected: 'Hello World'
+---
+=== Test 3: Format Bold ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'BoldText' at pos 0, result: 0
+Step: After Insert 'BoldText'
+Document Version: 0
+Document Length: 8
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment
+Document Version: 1
+Document Length: 8
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): BoldText
+---
+Bold from pos 0 to 8, result: 0
+Step: After Bold
+Document Version: 1
+Document Length: 8
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): BoldText
+---
+Flattened (before next increment): BoldText
+Expected: 'BoldText'
+---
+=== Test 4: Basic Deferred ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'Hello, World.' at pos 0, result: 0
+Step: After Insert 'Hello, World.'
+Document Version: 0
+Document Length: 13
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment
+Document Version: 1
+Document Length: 13
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello, World.
+---
+Delete 'Hello, World.' at pos 0, length 12, result: 0
+Step: After Delete
+Document Version: 1
+Document Length: 1
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello, World.
+---
+Insert 'Bar' at pos 2, result: 0
+Step: After Insert 'Bar'
+Document Version: 1
+Document Length: 4
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello, World.
+---
+Insert 'Foo' at pos 1, result: 0
+Step: After Insert 'Foo'
+Document Version: 1
+Document Length: 7
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Hello, World.
+---
+Flattened: Hello, World.
+Expected: 'Hello, World.'
+---
+=== Test 5: Multiple Inserts at Different Positions ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'Start' at pos 0, result: 0
+Step: After Insert 'Start'
+Document Version: 0
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'Middle' at pos 5, result: -1
+Step: After Insert 'Middle'
+Document Version: 0
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'End' at pos 11, result: -1
+Step: After Insert 'End'
+Document Version: 0
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment
+Document Version: 1
+Document Length: 5
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Start
+---
+Flattened: Start
+Expected: 'StartMiddleEnd'
+---
+=== Test 6: Overlapping Deletes Across Versions ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'LongTextToDelete' at pos 0, result: 0
+Step: After Insert 'LongTextToDelete'
+Document Version: 0
+Document Length: 16
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment to v1
+Document Version: 1
+Document Length: 16
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): LongTextToDelete
+---
+Delete 'LongText' (pos 0, len 8) in v1, result: 0
+Step: After Delete in v1
+Document Version: 1
+Document Length: 8
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): LongTextToDelete
+---
+Step: After Version Increment to v2
+Document Version: 2
+Document Length: 8
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): ToDelete
+---
+Delete 'Dele' (pos 2, len 4) in v2, result: 0
+Step: After Delete in v2
+Document Version: 2
+Document Length: 4
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): ToDelete
+---
+Step: After Version Increment to v3
+Document Version: 3
+Document Length: 4
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): Tote
+---
+Flattened: Tote
+Expected: 'Tote'
+---
+=== Test 7: Formatting Across Versions ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'FormatThisText' at pos 0, result: 0
+Step: After Insert 'FormatThisText'
+Document Version: 0
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment to v1
+Document Version: 1
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): FormatThisText
+---
+Bold 'Format' (pos 0 to 6) in v1, result: 0
+Step: After Bold in v1
+Document Version: 1
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): FormatThisText
+---
+Step: After Version Increment to v2
+Document Version: 2
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): **Format**ThisText
+---
+Italic 'ThisText' (pos 6 to 13) in v2, result: 0
+Step: After Italic in v2
+Document Version: 2
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): **Format**ThisText
+---
+Step: After Version Increment to v3
+Document Version: 3
+Document Length: 14
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): **Format***ThisTex*t
+---
+Flattened: **Format***ThisTex*t
+Expected: '**Format***ThisText*
+---
+=== Test 8: Edge Case - Empty Document ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment to v1
+Document Version: 1
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'NowNotEmpty' at pos 0 in v1, result: 0
+Step: After Insert in v1
+Document Version: 1
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Flattened: 
+Expected: ''
+Step: After Version Increment to v2
+Document Version: 2
+Document Length: 11
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): NowNotEmpty
+---
+Flattened: NowNotEmpty
+Expected: 'NowNotEmpty'
+---
+=== Test 9: Edge Case - Large Insertion ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 1000 'A's at pos 0, result: 0
+Step: After Insert Large Text
+Document Version: 0
+Document Length: 1000
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Step: After Version Increment
+Document Version: 1
+Document Length: 1000
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+---
+Flattened length: 1000
+Expected length: 1000
+---
+=== Test 10: Edge Case - Invalid Cursor Position ===
+Step: After Initialization
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+Insert 'ShouldFail' at pos 100, result: -1
+Step: After Invalid Insert
+Document Version: 0
+Document Length: 0
+Document Content (via markdown_print): 
+Document Content (via markdown_flatten): 
+---
+---
